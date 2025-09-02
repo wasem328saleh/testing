@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Controllers\Dashboard;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\Order\OrderRequest;
+use App\Repositories\Dashboard\Orders\OrdersRepositoryInterface;
+use Illuminate\Http\Request;
+
+class OrdersController extends Controller
+{
+    protected OrdersRepositoryInterface $orders;
+
+    /**
+     * @param OrdersRepositoryInterface $orders
+     */
+    public function __construct(OrdersRepositoryInterface $orders)
+    {
+        $this->orders = $orders;
+    }
+
+    public function get_all_orders(OrderRequest $request)
+    {
+        return $this->orders->get_all_orders($request);
+    }
+    public function get_all_ordersBy(OrderRequest $request)
+    {
+        return $this->orders->get_all_ordersBy($request);
+    }
+    public function accept_order(OrderRequest $request)
+    {
+        return $this->orders->accept_order($request);
+    }
+    public function cancel_order(OrderRequest $request)
+    {
+        return $this->orders->cancel_order($request);
+    }
+
+
+}
