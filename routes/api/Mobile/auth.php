@@ -17,6 +17,5 @@ Route::middleware('localization')->prefix('auth')->group(function (){
             Route::post('logout', [AuthController::class, 'logout']);
             Route::post('verify_new_email', [AuthController::class, 'verify_update_email']);
         });
-
     });
 });

@@ -78,11 +78,11 @@ class ServicesUserRepository implements ServicesUserRepositoryInterface
             if (Str::lower($user->roles()->first()->title)===Str::lower('Merchant')){
                 if ($user->merchant_register_order->status==='pending'){
                     DB::rollBack();
-                    return $this->returnError(403,'Your membership request has not been processed yet.');
+                    return $this->returnError(403403,'Your membership request has not been processed yet.');
                 }
                 if ($user->merchant_register_order->status==='unacceptable'){
                     DB::rollBack();
-                    return $this->returnError(403,'Your membership application has not been accepted. Please check with the administration or your notifications to find out why.');
+                    return $this->returnError(403403,'Your membership application has not been accepted. Please check with the administration or your notifications to find out why.');
                 }
             }
             $count=$user->orders()->where('for_service_provider',true)->count();
