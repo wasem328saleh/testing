@@ -82,7 +82,6 @@ class ProjectRun extends Command
             'MAIL_ENCRYPTION' => 'tls',
             'MAIL_FROM_ADDRESS' => "wasem.saleh328@gmail.com",
             'MAIL_FROM_NAME'=>'"${APP_NAME}"'
-
         ];
         $envFile = File::get($envFilePath);
 

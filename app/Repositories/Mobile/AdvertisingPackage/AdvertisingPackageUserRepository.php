@@ -78,6 +78,15 @@ class AdvertisingPackageUserRepository implements AdvertisingPackageUserReposito
         // TODO: Implement add_advertising() method.
 
         try {
+            $user=Auth::user();
+        if (Str::lower($user->roles()->first()->title)===Str::lower('Merchant')){
+            if ($user->merchant_register_order->status==='pending'){
+                return $this->returnError(403,'Your membership request has not been processed yet.');
+            }
+            if ($user->merchant_register_order->status==='unacceptable'){
+                return $this->returnError(403,'Your membership application has not been accepted. Please check with the administration or your notifications to find out why.');
+            }
+        }
             $classification_id=$request->classification_id;
             $classification_name=Classification::findOrFail($classification_id)->name;
             switch ($classification_name) {

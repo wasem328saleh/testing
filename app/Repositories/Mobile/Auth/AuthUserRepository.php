@@ -144,14 +144,14 @@ class AuthUserRepository implements AuthUserRepositoryInterface
         if (!$user) {
             return $this->returnError(403,'Your account has been not confirmed');
         }
-        if (Str::lower($user->roles()->first()->title)===Str::lower('Merchant')){
-            if ($user->merchant_register_order->status==='pending'){
-                return $this->returnError(403,'Your membership request has not been processed yet.');
-            }
-            if ($user->merchant_register_order->status==='unacceptable'){
-                return $this->returnError(403,'Your membership application has not been accepted. Please check with the administration or your notifications to find out why.');
-            }
-        }
+//        if (Str::lower($user->roles()->first()->title)===Str::lower('Merchant')){
+//            if ($user->merchant_register_order->status==='pending'){
+//                return $this->returnError(403,'Your membership request has not been processed yet.');
+//            }
+//            if ($user->merchant_register_order->status==='unacceptable'){
+//                return $this->returnError(403,'Your membership application has not been accepted. Please check with the administration or your notifications to find out why.');
+//            }
+//        }
         if (auth()->attempt($data)) {
             if (!$user->device_tokens()->where('token', $request['device_token'])->exists()) {
                 $user->device_tokens()->create([
@@ -242,7 +242,8 @@ class AuthUserRepository implements AuthUserRepositoryInterface
                             'type'=>$type
                         ];
                         dispatch(new SendNotification($data));
-                        return $this->returnData('user',[], 'Your account has been successfully confirmed');
+                        $token = $user->createToken('Signature-Group')->accessToken;
+                        return $this->returnData('user',collect(new UserResource($user))->put('token', $token), 'Your account has been successfully confirmed');
                     }
                     $token = $user->createToken('Signature-Group')->accessToken;
                     return $this->returnData('user', collect(new UserResource($user))->put('token', $token), 'Your account has been successfully confirmed');
